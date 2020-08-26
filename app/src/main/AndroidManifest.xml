@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".AddExam"
-            android:label="Esame"
+            android:label="Add Exam"
             tools:ignore="ExtraText"
             android:parentActivityName=".MainActivity">
         </activity>
