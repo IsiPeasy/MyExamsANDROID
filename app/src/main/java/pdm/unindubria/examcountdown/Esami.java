@@ -32,4 +32,6 @@ public class Esami {
     public String getData() {
         return data;
     }
+
+    public String toString() {return esame+" "+cfu+" "+data;}
 }
