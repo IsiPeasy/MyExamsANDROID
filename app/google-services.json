@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "944915829208",
+    "firebase_url": "https://examcountdown-b2f8d.firebaseio.com",
+    "project_id": "examcountdown-b2f8d",
+    "storage_bucket": "examcountdown-b2f8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944915829208:android:627c7881b4874b14b4e2ad",
+        "android_client_info": {
+          "package_name": "pdm.unindubria.examcountdown"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944915829208-j8974ecbcrdsfm7adfp0853fv7qd63op.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pdm.unindubria.examcountdown",
+            "certificate_hash": "478be8dc62900f58fb73e86f094037e4d95b9723"
+          }
+        },
+        {
+          "client_id": "944915829208-e9nphjn0tcjski181ap89n7t7qeidhnk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp40gdOktNzDUl9Au_imypt9A4bKKW5JE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944915829208-e9nphjn0tcjski181ap89n7t7qeidhnk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
