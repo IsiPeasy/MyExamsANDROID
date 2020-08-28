@@ -54,7 +54,7 @@ public class Esami {
             if(myTDiff.getSeconds() > 0) return myTDiff.getSeconds()+" seconds";
             if(myTDiff.getMilliseconds() > 0) return myTDiff.getMilliseconds()+" milliseconds";
              //prende mezzanotte come riferimento, bisogna aggiungere anche l'ora
-            return "Now!";
+            return "Already done!";
 
         }
         catch (Exception e)

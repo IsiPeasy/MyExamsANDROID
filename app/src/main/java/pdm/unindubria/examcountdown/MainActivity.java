@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -49,6 +52,28 @@ public class MainActivity extends AppCompatActivity {
 
         r = FirebaseDatabase.getInstance().getReference("Esami");
         ll = new EsamiListAdapter(getApplicationContext(), R.layout.custom_view_esami);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater infl = getMenuInflater();
+        infl.inflate(R.menu.delete_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        item.getItemId();
+        Toast.makeText(this,"Delete all", Toast.LENGTH_SHORT).show();
+        ll.clear();
+        deleteEsami();
+        return true;
+    }
+
+    private void deleteEsami() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Esami");
+        ref.removeValue();
     }
 
     @Override
