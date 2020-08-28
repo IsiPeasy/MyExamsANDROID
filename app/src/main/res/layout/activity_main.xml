@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/ic_add"
         tools:ignore="VectorDrawableCompat" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaEsami"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

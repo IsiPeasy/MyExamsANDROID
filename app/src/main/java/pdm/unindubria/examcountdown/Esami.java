@@ -8,10 +8,13 @@ public class Esami {
     private String esame;
     private String cfu;
     private String data;
+    private String key;
 
     public void setEsame(String esame) {
         this.esame = esame;
     }
+
+    public void setKey(String key) { this.key = key; }
 
     public void setCfu(String cfu) {
         this.cfu = cfu;
@@ -33,6 +36,10 @@ public class Esami {
 
     public String getData() {
         return data;
+    }
+
+    public String getKey() {
+        return key;
     }
 
     public String toString() {return esame+" "+cfu+" "+data;}

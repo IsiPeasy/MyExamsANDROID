@@ -5,16 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,19 +19,27 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.Context;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    LinearLayoutManager mListLayoutManager;
+    static RecyclerView.Adapter<EsamiListAdapter.Holder> mAdapter;
     FloatingActionButton floatingActionButton;
-    ListView l;
+    RecyclerView l;
+    static ArrayList<Esami> listaEsami = new ArrayList<>();
     DatabaseReference r;
-    EsamiListAdapter ll;
+
+    public static void deleteExam(Esami e)
+    {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Esami");
+        ref.child(e.getKey()).removeValue();
+        listaEsami.remove(e);
+        mAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +54,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         r = FirebaseDatabase.getInstance().getReference("Esami");
-        ll = new EsamiListAdapter(getApplicationContext(), R.layout.custom_view_esami);
+        mListLayoutManager = new LinearLayoutManager(this);
 
+        l = (RecyclerView) findViewById(R.id.listaEsami);
+        l.setLayoutManager(mListLayoutManager);
+        setmAdapter();
     }
-
+    private void setmAdapter()
+    {
+        mAdapter = new EsamiListAdapter(this,listaEsami);
+        l.setAdapter(mAdapter);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater infl = getMenuInflater();
@@ -66,12 +77,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         item.getItemId();
         Toast.makeText(this,"Delete all", Toast.LENGTH_SHORT).show();
-        ll.clear();
+        listaEsami.clear();
         deleteEsami();
         return true;
     }
 
-    private void deleteEsami() {
+    private void deleteEsami()
+    {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Esami");
         ref.removeValue();
     }
@@ -82,15 +94,17 @@ public class MainActivity extends AppCompatActivity {
 
         r.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
 
-                ll.clear();
-                for (DataSnapshot snap : snapshot.getChildren()) {
+                listaEsami.clear();
+                for (DataSnapshot snap : snapshot.getChildren())
+                {
                     Esami e1 = snap.getValue(Esami.class);
-                    ll.add(e1);
+                    e1.setKey(snap.getKey());
+                    listaEsami.add(e1);
                 }
-                l = (ListView)findViewById(R.id.listaEsami);
-                l.setAdapter(ll);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override

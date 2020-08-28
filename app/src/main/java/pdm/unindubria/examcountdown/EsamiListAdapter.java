@@ -1,76 +1,123 @@
 package pdm.unindubria.examcountdown;
 
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
-public final class EsamiListAdapter extends ArrayAdapter<Esami>
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapter.Holder>
 {
-    private final int newsItemLayoutResource;
+    private Context mContext;
+    protected static ArrayList<Esami> mEsami;
 
-    public EsamiListAdapter(final Context context, final int newsItemLayoutResource) {
-        super(context, 0);
-        this.newsItemLayoutResource = newsItemLayoutResource;
+    public EsamiListAdapter(Context c, ArrayList<Esami> mEsami)
+    {
+        this.mEsami = mEsami;
+        mContext = c;
     }
-
+    @NonNull
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
-
-        final View view = getWorkingView(convertView);
-        final ViewHolder viewHolder = getViewHolder(view);
-        final Esami esame = getItem(position);
-
-        viewHolder.nomeEsameText.setText(esame.getEsame());
-        viewHolder.dataEsameText.setText("  " + esame.getData());
-        viewHolder.cfuEsameText.setText(esame.getCfu() + " CFU  ");
-        viewHolder.countdownEsameText.setText(esame.getCountDown());
-        return view;
+    public EsamiListAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View inflatedView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_view_esami,parent,false);
+        return new Holder(inflatedView,mContext);
+    }
+    @Override
+    public void onBindViewHolder(@NonNull EsamiListAdapter.Holder holder, int position) {
+        Esami element = mEsami.get(position);
+        holder.bindProd(element);
+    }
+    @Override
+    public int getItemCount() {
+        return mEsami.size();
     }
 
-    private View getWorkingView(final View convertView) {
+    public static class Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private TextView txtNome;
+        private TextView txtData;
+        private TextView txtCfu;
+        private TextView txtCountDown;
+        private Context mContext;
+        public Holder(@NonNull View itemView,Context c)
+        {
+            super(itemView);
+            txtNome = (TextView) itemView.findViewById(R.id.NomeEsameText);
+            txtData = (TextView) itemView.findViewById(R.id.dataText);
+            txtCfu = (TextView) itemView.findViewById(R.id.cfuText);
+            txtCountDown = (TextView) itemView.findViewById(R.id.countDownText);
+            itemView.setOnClickListener(this);
+            txtNome.setOnLongClickListener(popupAction);
+            mContext = c;
+        }
+        public View.OnLongClickListener popupAction =  new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                PopupMenu popup = new PopupMenu(v.getContext(), v);
 
-        View workingView = null;
+                popup.getMenuInflater().inflate(R.menu.esame_menu, popup.getMenu());
+                final MenuItem btnElimina = popup.getMenu().findItem(R.id.menuEsami_btnElimina);
+                final MenuItem btnModifica = popup.getMenu().findItem(R.id.menuEsami_btnModifica);
+                btnElimina.setOnMenuItemClickListener(eliminaAction);
+                btnModifica.setOnMenuItemClickListener(aggiungiAction);
+                popup.show();
+                return false;
+            }
+        };
+        public MenuItem.OnMenuItemClickListener eliminaAction = new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                final Esami e = mEsami.get(getAdapterPosition());
+                new AlertDialog.Builder(mContext)
+                        .setTitle("Elimina")
+                        .setMessage("Eliminare l'esame "+e.getEsame()+" ?")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                MainActivity.deleteExam(e);
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+                return true;
+            }
+        };
+        public MenuItem.OnMenuItemClickListener aggiungiAction = new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                return true;
+            }
+        };
 
-        if(null == convertView) {
-            final Context context = getContext();
-            final LayoutInflater inflater = (LayoutInflater)context.getSystemService
-                    (Context.LAYOUT_INFLATER_SERVICE);
+        @Override
+        public void onClick(View v)
+        {
 
-            workingView = inflater.inflate(newsItemLayoutResource, null);
-        } else {
-            workingView = convertView;
         }
 
-        return workingView;
-    }
-    private ViewHolder getViewHolder(final View workingView) {
-
-        final Object tag = workingView.getTag();
-        ViewHolder viewHolder = null;
-
-        if(null == tag || !(tag instanceof ViewHolder)) {
-            viewHolder = new ViewHolder();
-
-            viewHolder.nomeEsameText = (TextView) workingView.findViewById(R.id.NomeEsameText);
-            viewHolder.dataEsameText = (TextView) workingView.findViewById(R.id.dataText);
-            viewHolder.cfuEsameText = (TextView) workingView.findViewById(R.id.cfuText);
-            viewHolder.countdownEsameText = (TextView) workingView.findViewById(R.id.countDownText);
-            workingView.setTag(viewHolder);
-
-        } else {
-            viewHolder = (ViewHolder) tag;
+        public void bindProd(Esami element)
+        {
+                txtNome.setText(element.getEsame());
+                txtData.setText(element.getData());
+                txtCfu.setText(element.getCfu());
+                txtCountDown.setText(element.getCountDown());
         }
-
-        return viewHolder;
-    }
-    private static class ViewHolder {
-        //Campi adapter
-        public TextView nomeEsameText;
-        public TextView dataEsameText;
-        public TextView cfuEsameText;
-        public TextView countdownEsameText;
     }
 }
