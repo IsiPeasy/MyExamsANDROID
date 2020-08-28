@@ -2,17 +2,17 @@ package pdm.unindubria.examcountdown;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.DatePickerDialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.Context;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ListView l;
     DatabaseReference r;
     EsamiListAdapter ll;
+    TextView ogg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +46,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         r = FirebaseDatabase.getInstance().getReference("Esami");
         ll = new EsamiListAdapter(getApplicationContext(), R.layout.custom_view_esami);
+
+        ogg = (TextView) findViewById(R.id.NomeEsameText);
+
+        if(!ll.isEmpty()) {
+        ogg.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View view) {
+                                       Toast.makeText(getApplicationContext(),"Item selected", Toast.LENGTH_LONG).show();
+                                   }
+                               });
+
+
+                ogg.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+
+                        final int POSITION = 0;
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setIcon(android.R.drawable.ic_delete)
+                                .setTitle("Are you sure?")
+                                .setMessage("Do you want to delete this item")
+                                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //ll.remove(POSITION);
+                                        ll.notifyDataSetChanged();
+                                    }
+                                })
+                                .setNegativeButton("No", null)
+                                .show();
+                        return true;
+                    }
+                });
+        }
 
     }
 
@@ -98,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 }
 
