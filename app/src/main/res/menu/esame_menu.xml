@@ -3,9 +3,10 @@
 
     <group>
         <item
-            android:title="Modifica"
-            android:id = "@+id/menuEsami_btnModifica"
+            android:title="Countdown"
+            android:id = "@+id/menuEsami_btnMostra"
             />
+
         <item
             android:title="Elimina"
             android:id = "@+id/menuEsami_btnElimina"

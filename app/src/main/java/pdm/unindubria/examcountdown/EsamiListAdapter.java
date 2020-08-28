@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapter.Holder>
 {
@@ -70,9 +74,9 @@ public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapte
 
                 popup.getMenuInflater().inflate(R.menu.esame_menu, popup.getMenu());
                 final MenuItem btnElimina = popup.getMenu().findItem(R.id.menuEsami_btnElimina);
-                final MenuItem btnModifica = popup.getMenu().findItem(R.id.menuEsami_btnModifica);
+                final MenuItem btnCount = popup.getMenu().findItem(R.id.menuEsami_btnMostra);
                 btnElimina.setOnMenuItemClickListener(eliminaAction);
-                btnModifica.setOnMenuItemClickListener(aggiungiAction);
+                btnCount.setOnMenuItemClickListener(mostraAction);
                 popup.show();
                 return false;
             }
@@ -98,12 +102,20 @@ public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapte
                 return true;
             }
         };
-        public MenuItem.OnMenuItemClickListener aggiungiAction = new MenuItem.OnMenuItemClickListener() {
+        public MenuItem.OnMenuItemClickListener mostraAction = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item)
             {
+                item.getItemId();
+                Intent i = new Intent(mContext,Countdown.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putString("testo", txtData.getText().toString());
+                i.putExtras(mBundle);
+                mContext.startActivity(i);
                 return true;
             }
+
+
         };
 
         @Override

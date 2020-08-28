@@ -2,6 +2,7 @@ package pdm.unindubria.examcountdown;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -20,7 +21,7 @@ import java.util.Date;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_countdown);
 
             txtTimerDay = (TextView) findViewById(R.id.txtTimerDay);
             txtTimerHour = (TextView) findViewById(R.id.txtTimerHour);
@@ -38,10 +39,11 @@ import java.util.Date;
                 public void run() {
                     handler.postDelayed(this, 1000);
                     try {
+                        String d = getIntent().getExtras().getString("testo");
                         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                                "yyyy-MM-dd");
+                                "dd/MM/yyyy");
                         // Please here set your event date//YYYY-MM-DD
-                        Date futureDate = dateFormat.parse("2020-8-31");
+                        Date futureDate = dateFormat.parse(d);
                         Date currentDate = new Date();
                         if (!currentDate.after(futureDate)) {
                             long diff = futureDate.getTime()
