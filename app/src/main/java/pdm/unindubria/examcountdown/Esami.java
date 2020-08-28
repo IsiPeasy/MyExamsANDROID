@@ -44,11 +44,8 @@ public class Esami {
 
     public String toString() {return esame+" "+cfu+" "+data;}
 
-    public String getCountDown()
-    {
-
-        try
-        {
+    public String getCountDown() {
+        try {
             Date dataEsame = new SimpleDateFormat("dd/MM/yyyy").parse(getData());
             Date dataOdierna = new Date();
 
@@ -60,14 +57,11 @@ public class Esami {
             if(myTDiff.getMinutes() > 0) return myTDiff.getMinutes()+" minutes";
             if(myTDiff.getSeconds() > 0) return myTDiff.getSeconds()+" seconds";
             if(myTDiff.getMilliseconds() > 0) return myTDiff.getMilliseconds()+" milliseconds";
-             //prende mezzanotte come riferimento, bisogna aggiungere anche l'ora
-            return "Already done!";
 
+            return "Already done!";
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             return "(unknown)";
         }
-
     }
 }

@@ -1,6 +1,5 @@
 package pdm.unindubria.examcountdown;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,13 +21,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapter.Holder>
-{
+public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapter.Holder> {
+
     private Context mContext;
     protected static ArrayList<Esami> mEsami;
 
-    public EsamiListAdapter(Context c, ArrayList<Esami> mEsami)
-    {
+    public EsamiListAdapter(Context c, ArrayList<Esami> mEsami) {
         this.mEsami = mEsami;
         mContext = c;
     }
@@ -54,12 +52,12 @@ public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapte
         private TextView txtCfu;
         private TextView txtCountDown;
         private Context mContext;
-        public Holder(@NonNull View itemView,Context c)
-        {
+
+        public Holder(@NonNull View itemView,Context c) {
             super(itemView);
             txtNome = (TextView) itemView.findViewById(R.id.NomeEsameText);
             txtData = (TextView) itemView.findViewById(R.id.dataText);
-            txtCfu = (TextView) itemView.findViewById(R.id.cfuText);
+            txtCfu = (TextView) itemView.findViewById(R.id.cfuText );
             txtCountDown = (TextView) itemView.findViewById(R.id.countDownText);
             itemView.setOnClickListener(this);
             txtNome.setOnLongClickListener(popupAction);
@@ -89,7 +87,7 @@ public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapte
                 new AlertDialog.Builder(mContext)
                         .setTitle("Elimina")
                         .setMessage("Eliminare l'esame "+e.getEsame()+" ?")
-                        .setPositiveButton("yes", new DialogInterface.OnClickListener()
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener()
                         {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i)
@@ -117,18 +115,12 @@ public final class EsamiListAdapter extends RecyclerView.Adapter<EsamiListAdapte
 
 
         };
-
         @Override
-        public void onClick(View v)
-        {
-
-        }
-
-        public void bindProd(Esami element)
-        {
+        public void onClick(View v) { }
+        public void bindProd(Esami element) {
                 txtNome.setText(element.getEsame());
-                txtData.setText(element.getData());
-                txtCfu.setText(element.getCfu());
+                txtData.setText("  " + element.getData());
+                txtCfu.setText(element.getCfu() + "  CFU  ");
                 txtCountDown.setText(element.getCountDown());
         }
     }

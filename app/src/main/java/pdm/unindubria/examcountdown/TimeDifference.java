@@ -2,8 +2,7 @@ package pdm.unindubria.examcountdown;
 
 import java.util.Date;
 
-public class TimeDifference
-{
+public class TimeDifference {
     private Date startDate,endDate;
     private long timeDiff = 0;
 

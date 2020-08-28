@@ -32,14 +32,12 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Esami> listaEsami = new ArrayList<>();
     DatabaseReference r;
 
-    public static void deleteExam(Esami e)
-    {
+    public static void deleteExam(Esami e) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Esami");
         ref.child(e.getKey()).removeValue();
         listaEsami.remove(e);
         mAdapter.notifyDataSetChanged();
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         l.setLayoutManager(mListLayoutManager);
         setmAdapter();
     }
-    private void setmAdapter()
-    {
+
+    private void setmAdapter() {
         mAdapter = new EsamiListAdapter(this,listaEsami);
         l.setAdapter(mAdapter);
     }
@@ -72,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         infl.inflate(R.menu.delete_menu, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         item.getItemId();
@@ -82,34 +79,27 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void deleteEsami()
-    {
+    private void deleteEsami() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Esami");
         ref.removeValue();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
 
         r.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot)
-            {
-
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaEsami.clear();
-                for (DataSnapshot snap : snapshot.getChildren())
-                {
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     Esami e1 = snap.getValue(Esami.class);
                     e1.setKey(snap.getKey());
                     listaEsami.add(e1);
                 }
                 mAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }

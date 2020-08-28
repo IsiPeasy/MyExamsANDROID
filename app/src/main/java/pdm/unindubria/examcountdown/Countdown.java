@@ -1,7 +1,6 @@
 package pdm.unindubria.examcountdown;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,14 +39,12 @@ import java.util.Date;
                     handler.postDelayed(this, 1000);
                     try {
                         String d = getIntent().getExtras().getString("testo");
-                        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                                "dd/MM/yyyy");
-                        // Please here set your event date//YYYY-MM-DD
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                         Date futureDate = dateFormat.parse(d);
                         Date currentDate = new Date();
+
                         if (!currentDate.after(futureDate)) {
-                            long diff = futureDate.getTime()
-                                    - currentDate.getTime();
+                            long diff = futureDate.getTime() - currentDate.getTime();
                             long days = diff / (24 * 60 * 60 * 1000);
                             diff -= days * (24 * 60 * 60 * 1000);
                             long hours = diff / (60 * 60 * 1000);
@@ -57,10 +54,8 @@ import java.util.Date;
                             long seconds = diff / 1000;
                             txtTimerDay.setText("" + String.format("%02d", days));
                             txtTimerHour.setText("" + String.format("%02d", hours));
-                            txtTimerMinute.setText(""
-                                    + String.format("%02d", minutes));
-                            txtTimerSecond.setText(""
-                                    + String.format("%02d", seconds));
+                            txtTimerMinute.setText("" + String.format("%02d", minutes));
+                            txtTimerSecond.setText("" + String.format("%02d", seconds));
                         } else {
                             textViewGone();
                         }
