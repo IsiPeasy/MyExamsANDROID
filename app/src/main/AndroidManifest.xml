@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Countdown"></activity>
+        <activity android:name=".Countdown"
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".ShowExam" />
         <activity
             android:name=".AddExam"
