@@ -11,12 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ShowExam"></activity>
+        <activity android:name=".Countdown"></activity>
+        <activity android:name=".ShowExam" />
         <activity
             android:name=".AddExam"
             android:label="Add Exam"
             android:parentActivityName=".MainActivity"
-            tools:ignore="ExtraText"></activity>
+            tools:ignore="ExtraText" />
         <activity
             android:name=".MainActivity"
             android:label="Exams Countdown">

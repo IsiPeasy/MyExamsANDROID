@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ExamCountdown</string>
+    <string name="Countdown">Time remaining</string>
 </resources>
