@@ -1,5 +1,8 @@
 package pdm.unindubria.examcountdown;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Esami {
 
     private String esame;
@@ -18,8 +21,7 @@ public class Esami {
         this.data = data;
     }
 
-    public Esami(){
-    }
+    public Esami(){ }
 
     public String getEsame() {
         return esame;
@@ -34,4 +36,31 @@ public class Esami {
     }
 
     public String toString() {return esame+" "+cfu+" "+data;}
+
+    public String getCountDown()
+    {
+
+        try
+        {
+            Date dataEsame = new SimpleDateFormat("dd/MM/yyyy").parse(getData());
+            Date dataOdierna = new Date();
+
+            TimeDifference myTDiff = new TimeDifference(dataOdierna,dataEsame);
+
+            if(myTDiff.getYears() > 0) return myTDiff.getYears()+" years";
+            if(myTDiff.getDays() > 0) return myTDiff.getDays()+" days";
+            if(myTDiff.getHours() > 0) return myTDiff.getHours()+" hours";
+            if(myTDiff.getMinutes() > 0) return myTDiff.getMinutes()+" minutes";
+            if(myTDiff.getSeconds() > 0) return myTDiff.getSeconds()+" seconds";
+            if(myTDiff.getMilliseconds() > 0) return myTDiff.getMilliseconds()+" milliseconds";
+             //prende mezzanotte come riferimento, bisogna aggiungere anche l'ora
+            return "Now!";
+
+        }
+        catch (Exception e)
+        {
+            return "(unknown)";
+        }
+
+    }
 }

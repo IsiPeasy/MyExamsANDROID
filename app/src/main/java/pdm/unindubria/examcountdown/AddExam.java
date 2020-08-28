@@ -45,13 +45,13 @@ public class AddExam extends AppCompatActivity {
 
         esami = new Esami();
         reff = FirebaseDatabase.getInstance().getReference().child("Esami");
+
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists())
                     maxId=(snapshot.getChildrenCount());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -72,6 +72,7 @@ public class AddExam extends AppCompatActivity {
                 reff.child(String.valueOf(maxId + 1)).setValue(esami);
 
                 Toast.makeText(AddExam.this, "Exam added", Toast.LENGTH_LONG).show();
+                finish();
             }
         });
 

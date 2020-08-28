@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     ListView l;
     DatabaseReference r;
-    List<Esami> ll;
-
+    EsamiListAdapter ll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +47,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        l = (ListView)findViewById(R.id.listaEsami);
         r = FirebaseDatabase.getInstance().getReference("Esami");
-        ll = new ArrayList<>();
-        //Toast.makeText(MainActivity.this, "Connected to database", Toast.LENGTH_LONG).show();
-
-
+        ll = new EsamiListAdapter(getApplicationContext(), R.layout.custom_view_esami);
     }
 
     @Override
@@ -65,13 +60,12 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 ll.clear();
-                for (DataSnapshot snap: snapshot.getChildren()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     Esami e1 = snap.getValue(Esami.class);
                     ll.add(e1);
                 }
-
-                EsamiList el = new EsamiList(MainActivity.this, ll);
-                l.setAdapter(el);
+                l = (ListView)findViewById(R.id.listaEsami);
+                l.setAdapter(ll);
             }
 
             @Override
